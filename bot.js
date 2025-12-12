@@ -30,7 +30,7 @@ client.on(Events.GuildMemberAdd, async (member) => {
             console.log(`${member.user.displayName} should be kicked - too new (${daysOld} days)`);
 
         if (systemChannel?.isTextBased()){
-          await systemChannel.send(`✅ Auto-banned new account: ${member.user.tag}`);
+          await systemChannel.send(`✅ Auto-kicked new account: ${member.user.tag}`);
           await member.kick({reason: "Account is too new. Get outta here"});
         // await member.ban({ reason: `Account only ${daysOld} days old` });
 
@@ -40,7 +40,7 @@ client.on(Events.GuildMemberAdd, async (member) => {
      catch (error) {
             console.log(`kick or ban failed ${error}`);
             if (systemChannel?.isTextBased()){
-                await systemChannel.send(`❌ Failed to auto-ban ${member.user.tag}: ${error.message}`);
+                await systemChannel.send(`❌ Failed to auto-kick ${member.user.tag}: ${error.message}`);
             }
         }
     }
