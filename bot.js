@@ -22,20 +22,26 @@ client.on(Events.GuildMemberAdd, async (member) => {
     const daysOld = Math.floor(accountAgeMs / (24 * 60 * 60 * 1000)); // ms per day
   
     console.log(`${member.user.tag} account is ${daysOld} days old`);
+    const systemChannel = member.guild.systemChannel;
   
     if (daysOld < 14) {
 
         try {
-            console.log(`${member.user.displayName} should be banned - too new (${daysOld} days)`);
-            await member.kick({reason: "Account is too new. Get outta here"});
+            console.log(`${member.user.displayName} should be kicked - too new (${daysOld} days)`);
+
+        if (systemChannel?.isTextBased()){
+          await systemChannel.send(`✅ Auto-banned new account: ${member.user.tag}`);
+          await member.kick({reason: "Account is too new. Get outta here"});
         // await member.ban({ reason: `Account only ${daysOld} days old` });
 
-          await systemChannel.send(`✅ Auto-banned new account: ${member.user.tag}`);
+        }
       }
 
      catch (error) {
             console.log(`kick or ban failed ${error}`);
-           await systemChannel.send(`❌ Failed to auto-ban ${member.user.tag}: ${error.message}`);
+            if (systemChannel?.isTextBased()){
+                await systemChannel.send(`❌ Failed to auto-ban ${member.user.tag}: ${error.message}`);
+            }
         }
     }
 })
