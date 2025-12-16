@@ -1,9 +1,6 @@
 // Require the necessary discord.js classes
 require("dotenv").config();
-client.commands = new Collection(); // property to store commands as iterable in bot
-client.guildLogChannels = new Map();
-client.guildModeSettings = new Map();
-client.guildDaysSettings = new Map();
+
 
 const fs = require("node:fs"); // fs is for filesystem. reads files
 const path = require("node:path"); // native node path utility module for adjoining file path strings
@@ -24,6 +21,11 @@ const client = new Client({
     GatewayIntentBits.MessageContent, // read message content
   ],
 });
+
+client.commands = new Collection(); // property to store commands as iterable in bot
+client.guildLogChannels = new Map();
+client.guildModeSettings = new Map();
+client.guildDaysSettings = new Map();
 
 client.once(Events.ClientReady, (readyClient) => {
   console.log(`Ready! Logged in as ${readyClient.user.tag}`);

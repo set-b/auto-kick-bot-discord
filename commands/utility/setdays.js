@@ -9,14 +9,19 @@ module.exports = {
       option
         .setName(`days`)
         .setDescription("Minimum age in days (e.g. 14)")
-        .setRequired(true)
-        .setMinValue(1)
-        .setMaxValue(365),
+        .setRequired(true),
     )
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
   async execute(interaction) {
     const days = interaction.options.getInteger("days");
+
+    if (days < 1 || days > 365) {
+      return interaction.reply({
+        content: "❌ Please enter a number between 1 and 365 days.",
+        ephemeral: true,
+      });
+    }
 
     interaction.client.guildDaysSettings.set(interaction.guild.id, days);
     // const channel = interaction.options.getChannel(`channel`);

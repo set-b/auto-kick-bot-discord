@@ -5,7 +5,7 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("setmode")
     .setDescription("sets the bot to auto kick or auto ban")
-    .addChannelOption((option) =>
+    .addStringOption((option) =>
       option
         .setName(`mode`)
         .setDescription("kick or ban")
