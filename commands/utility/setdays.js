@@ -1,4 +1,8 @@
-const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags } = require("discord.js");
+const {
+  SlashCommandBuilder,
+  PermissionFlagsBits,
+  MessageFlags,
+} = require("discord.js");
 
 // exports the command to be used in other parts of the app
 module.exports = {
@@ -9,7 +13,7 @@ module.exports = {
       option
         .setName(`days`)
         .setDescription("Minimum age in days (e.g. 14)")
-        .setRequired(true),
+        .setRequired(true)
     )
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 

@@ -12,8 +12,8 @@ module.exports = {
         .setRequired(true)
         .addChoices(
           { name: "Kick", value: "kick" },
-          { name: "Ban", value: "ban" },
-        ),
+          { name: "Ban", value: "ban" }
+        )
     )
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 

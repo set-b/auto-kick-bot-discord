@@ -97,9 +97,9 @@ client.on(Events.GuildMemberAdd, async (member) => {
   const daysOld = Math.floor(accountAgeMs / (24 * 60 * 60 * 1000)); // ms per day
 
   const minDays = client.guildDaysSettings.get(member.guild.id) || 14;
-  const mode = client.guildModeSettings.get(member.client.id) || "kick";
+  const mode = client.guildModeSettings.get(member.guild.id) || "kick";
   const logChannelId = client.guildLogChannels.get(member.guild.id);
-  
+
   let logChannel;
   if (logChannelId) {
     logChannel = member.guild.channels.cache.get(logChannelId);
@@ -109,22 +109,22 @@ client.on(Events.GuildMemberAdd, async (member) => {
 
   console.log(`${member.user.tag} account is ${daysOld} days old`);
 
-  if (daysOld < minDays) {
+    if (daysOld < minDays) {
     try {
       console.log(
         `${member.user.displayName} should be kicked - too new (${daysOld} days)`
       );
 
-      if (logChannel?.isTextBased()) {
-        await systemChannel.send(
-          `✅ Auto-kicked new account: ${member.user.tag}`
-        );
-
-        if (mode === "ban") {
-          await member.ban({ reason: "Account is too new. Get outta here" });
-        } else {
-          await member.kick({ reason: "Account is too new. Get outta here" });
-        }
+    if (mode === "ban") {
+      await member.ban({ reason: `Account too new (${daysOld} days old, minimum: ${minDays})` });
+    } else {
+      await member.kick({ reason: `Account too new (${daysOld} days old, minimum: ${minDays})` });
+    }
+      
+        if (logChannel?.isTextBased()) {
+        await logChannel.send(
+        `✅ Auto-${mode}ed new account: ${member.user.tag} (${daysOld} days old, threshold: ${minDays} days)`
+        );  
       }
     } catch (error) {
       console.log(`kick or ban failed ${error}`);
