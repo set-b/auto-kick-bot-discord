@@ -99,9 +99,13 @@ client.on(Events.GuildMemberAdd, async (member) => {
   const minDays = client.guildDaysSettings.get(member.guild.id) || 14;
   const mode = client.guildModeSettings.get(member.client.id) || "kick";
   const logChannelId = client.guildLogChannels.get(member.guild.id);
-  const logChannel = logChannelId
-    ? member.guild.channels.cache.get(logChannelId)
-    : member.guild.systemChannel;
+  
+  let logChannel;
+  if (logChannelId) {
+    logChannel = member.guild.channels.cache.get(logChannelId);
+  } else {
+    logChannel = member.guild.systemChannel;
+  }
 
   console.log(`${member.user.tag} account is ${daysOld} days old`);
 
