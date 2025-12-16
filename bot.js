@@ -18,7 +18,6 @@ const client = new Client({
     GatewayIntentBits.Guilds, // roles and server information
     GatewayIntentBits.GuildMembers, // member details and join/leave events
     GatewayIntentBits.GuildMessages, // receive messages
-    GatewayIntentBits.MessageContent, // read message content
   ],
 });
 
@@ -101,7 +100,7 @@ client.on(Events.GuildMemberAdd, async (member) => {
   const mode = client.guildModeSettings.get(member.client.id) || "kick";
   const logChannelId = client.guildLogChannels.get(member.guild.id);
   const logChannel = logChannelId
-    ? member.guild.id.channels.cache.get(logChannelId)
+    ? member.guild.channels.cache.get(logChannelId)
     : member.guild.systemChannel;
 
   console.log(`${member.user.tag} account is ${daysOld} days old`);

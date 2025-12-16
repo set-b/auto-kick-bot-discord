@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
+const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags } = require("discord.js");
 
 // exports the command to be used in other parts of the app
 module.exports = {
@@ -19,7 +19,7 @@ module.exports = {
     if (days < 1 || days > 365) {
       return interaction.reply({
         content: "❌ Please enter a number between 1 and 365 days.",
-        ephemeral: true,
+        flags: MessageFlags.ephemeral,
       });
     }
 
@@ -28,7 +28,7 @@ module.exports = {
 
     await interaction.reply({
       content: `✅ Minimum account age set to: **${days} days**`,
-      ephemeral: true,
+      flags: MessageFlags.ephemeral,
     });
   },
 };

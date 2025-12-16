@@ -1,4 +1,8 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
+const {
+  SlashCommandBuilder,
+  PermissionFlagsBits,
+  MessageFlags,
+} = require("discord.js");
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -19,7 +23,7 @@ module.exports = {
     if (!channel.isTextBased()) {
       return interaction.reply({
         content: "❌ Please select a text channel!",
-        ephemeral: true,
+        flags: MessageFlags.ephemeral,
       });
     }
 
@@ -28,7 +32,7 @@ module.exports = {
 
     await interaction.reply({
       content: `✅ Auto-kick logs will now be sent to ${channel}`,
-      ephemeral: true,
+      flags: MessageFlags.ephemeral,
     });
   },
 };
