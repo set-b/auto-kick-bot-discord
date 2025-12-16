@@ -1,5 +1,9 @@
 // Require the necessary discord.js classes
 require("dotenv").config();
+client.commands = new Collection(); // property to store commands as iterable in bot
+client.guildLogChannels = new Map();
+client.guildModeSettings = new Map();
+client.guildDaysSettings = new Map();
 
 const fs = require("node:fs"); // fs is for filesystem. reads files
 const path = require("node:path"); // native node path utility module for adjoining file path strings
@@ -24,8 +28,6 @@ const client = new Client({
 client.once(Events.ClientReady, (readyClient) => {
   console.log(`Ready! Logged in as ${readyClient.user.tag}`);
 });
-
-client.commands = new Collection(); // property to store commands as iterable in bot
 
 const foldersPath = path.join(__dirname, "commands"); // path to commands
 const commandFolders = fs.readdirSync(foldersPath); // reads the path
@@ -93,26 +95,36 @@ client.on(Events.GuildMemberAdd, async (member) => {
   const accountAgeMs = Date.now() - member.user.createdAt.getTime();
   const daysOld = Math.floor(accountAgeMs / (24 * 60 * 60 * 1000)); // ms per day
 
-  console.log(`${member.user.tag} account is ${daysOld} days old`);
-  const systemChannel = member.guild.systemChannel;
+  const minDays = client.guildDaysSettings.get(member.guild.id) || 14;
+  const mode = client.guildModeSettings.get(member.client.id) || "kick";
+  const logChannelId = client.guildLogChannels.get(member.guild.id);
+  const logChannel = logChannelId
+    ? member.guild.id.channels.cache.get(logChannelId)
+    : member.guild.systemChannel;
 
-  if (daysOld < 14) {
+  console.log(`${member.user.tag} account is ${daysOld} days old`);
+
+  if (daysOld < minDays) {
     try {
       console.log(
         `${member.user.displayName} should be kicked - too new (${daysOld} days)`
       );
 
-      if (systemChannel?.isTextBased()) {
+      if (logChannel?.isTextBased()) {
         await systemChannel.send(
           `✅ Auto-kicked new account: ${member.user.tag}`
         );
-        await member.kick({ reason: "Account is too new. Get outta here" });
-        // await member.ban({ reason: `Account only ${daysOld} days old` });
+
+        if (mode === "ban") {
+          await member.ban({ reason: "Account is too new. Get outta here" });
+        } else {
+          await member.kick({ reason: "Account is too new. Get outta here" });
+        }
       }
     } catch (error) {
       console.log(`kick or ban failed ${error}`);
-      if (systemChannel?.isTextBased()) {
-        await systemChannel.send(
+      if (logChannel?.isTextBased()) {
+        await logChannel.send(
           `❌ Failed to auto-kick ${member.user.tag}: ${error.message}`
         );
       }
