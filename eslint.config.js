@@ -1,6 +1,6 @@
-import js from '@eslint/js';
-import prettier from 'eslint-plugin-prettier';
-import parser from 'eslint-parser';
+import js from "@eslint/js";
+import prettier from "eslint-plugin-prettier";
+import globals from "globals";
 
 export default [
   js.configs.recommended,
@@ -9,6 +9,10 @@ export default [
       prettier,
     },
     languageOptions: {
+      sourceType: 'commonjs',  
+      globals: {                
+        ...globals.node,
+      },
       parserOptions: {
         ecmascriptFeatures: {
           impliedStrict: true,
@@ -16,7 +20,7 @@ export default [
       },
     },
     rules: {
-      'prettier/prettier': 'error',
+      "prettier/prettier": "error",
     },
   },
 ];
