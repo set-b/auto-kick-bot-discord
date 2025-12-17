@@ -12,9 +12,9 @@ module.exports = {
       option
         .setName("channel")
         .setDescription("The channel to send logs to")
-        .setRequired(true),
+        .setRequired(true)
     )
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+    .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers),
 
   async execute(interaction) {
     const channel = interaction.options.getChannel("channel");

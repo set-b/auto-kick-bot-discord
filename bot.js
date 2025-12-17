@@ -1,7 +1,6 @@
 // Require the necessary discord.js classes
 require("dotenv").config();
 
-
 const fs = require("node:fs"); // fs is for filesystem. reads files
 const path = require("node:path"); // native node path utility module for adjoining file path strings
 const {
@@ -109,23 +108,27 @@ client.on(Events.GuildMemberAdd, async (member) => {
 
   console.log(`${member.user.tag} account is ${daysOld} days old`);
 
-    if (daysOld < minDays) {
+  if (daysOld < minDays) {
     try {
       console.log(
         `${member.user.displayName} should be kicked - too new (${daysOld} days)`
       );
 
-    if (mode === "ban") {
-      await member.ban({ reason: `Account too new (${daysOld} days old, minimum: ${minDays})` });
-    } else {
-      await member.kick({ reason: `Account too new (${daysOld} days old, minimum: ${minDays})` });
-    }
-      
-        if (logChannel?.isTextBased()) {
+      if (mode === "ban") {
+        await member.ban({
+          reason: `Account too new (${daysOld} days old, minimum: ${minDays})`,
+        });
+      } else {
+        await member.kick({
+          reason: `Account too new (${daysOld} days old, minimum: ${minDays})`,
+        });
+      }
+
+      if (logChannel?.isTextBased()) {
         const modAction = mode === "ban" ? "banned" : "kicked";
         await logChannel.send(
-        `✅ Auto-${modAction} new account: ${member.user.tag} (${daysOld} days old, threshold: ${minDays} days)`
-        );  
+          `✅ Auto-${modAction} new account: ${member.user.tag} (${daysOld} days old, threshold: ${minDays} days)`
+        );
       }
     } catch (error) {
       console.log(`kick or ban failed ${error}`);

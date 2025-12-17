@@ -16,10 +16,10 @@ module.exports = {
         .setRequired(true)
         .addChoices(
           { name: "Kick", value: "kick" },
-          { name: "Ban", value: "ban" },
-        ),
+          { name: "Ban", value: "ban" }
+        )
     )
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+    .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers),
 
   async execute(interaction) {
     const mode = interaction.options.getString("mode");

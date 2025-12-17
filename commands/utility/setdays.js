@@ -13,9 +13,9 @@ module.exports = {
       option
         .setName("days")
         .setDescription("Minimum age in days (e.g. 14)")
-        .setRequired(true),
+        .setRequired(true)
     )
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+    .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers),
 
   async execute(interaction) {
     const days = interaction.options.getInteger("days");
@@ -28,7 +28,6 @@ module.exports = {
     }
 
     interaction.client.guildDaysSettings.set(interaction.guild.id, days);
-    // const channel = interaction.options.getChannel(`channel`);
 
     await interaction.reply({
       content: `✅ Minimum account age set to: **${days} days**`,
