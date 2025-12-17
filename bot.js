@@ -122,8 +122,9 @@ client.on(Events.GuildMemberAdd, async (member) => {
     }
       
         if (logChannel?.isTextBased()) {
+        const modAction = mode === "ban" ? "banned" : "kicked";
         await logChannel.send(
-        `✅ Auto-${mode}ned new account: ${member.user.tag} (${daysOld} days old, threshold: ${minDays} days)`
+        `✅ Auto-${modAction} new account: ${member.user.tag} (${daysOld} days old, threshold: ${minDays} days)`
         );  
       }
     } catch (error) {
