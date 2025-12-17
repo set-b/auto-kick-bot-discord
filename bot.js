@@ -68,24 +68,24 @@ client.on(Events.InteractionCreate, async (interaction) => {
   }
 
   try {
-    // executes command if command is found
     await command.execute(interaction);
   } catch (error) {
     console.error(error);
-    // interaction.replied - bot responded reply()
-    // interaction.deferred - bot is deferring reply deferReply() to process
-    if (interaction.replied || interaction.deferred) {
-      await interaction.followUp({
-        //followUp used because reply can only be used once
-        content: "There was an error while executing this command!",
-        flags: MessageFlags.Ephemeral,
-      });
-    } else {
-      // bot hasn't responded, but error
-      await interaction.reply({
-        content: "There was an error while executing this command!",
-        flags: MessageFlags.Ephemeral,
-      });
+
+    try {
+      if (interaction.replied || interaction.deferred) {
+        await interaction.followUp({
+          content: "There was an error while executing this command!",
+          flags: MessageFlags.Ephemeral,
+        });
+      } else {
+        await interaction.reply({
+          content: "There was an error while executing this command!",
+          flags: MessageFlags.Ephemeral,
+        });
+      }
+    } catch (replyError) {
+      console.error("Could not send error message:", replyError.message);
     }
   }
 });
