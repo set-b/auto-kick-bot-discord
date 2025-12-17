@@ -11,7 +11,7 @@ module.exports = {
     .setDescription("sets the minimum allowed account age in days")
     .addIntegerOption((option) =>
       option
-        .setName(`days`)
+        .setName("days")
         .setDescription("Minimum age in days (e.g. 14)")
         .setRequired(true),
     )

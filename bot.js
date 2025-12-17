@@ -123,7 +123,7 @@ client.on(Events.GuildMemberAdd, async (member) => {
       
         if (logChannel?.isTextBased()) {
         await logChannel.send(
-        `✅ Auto-${mode}ed new account: ${member.user.tag} (${daysOld} days old, threshold: ${minDays} days)`
+        `✅ Auto-${mode}ned new account: ${member.user.tag} (${daysOld} days old, threshold: ${minDays} days)`
         );  
       }
     } catch (error) {
