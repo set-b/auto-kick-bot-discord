@@ -23,7 +23,7 @@ module.exports = {
     if (!channel.isTextBased()) {
       return interaction.reply({
         content: "❌ Please select a text channel!",
-        flags: MessageFlags.ephemeral,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
@@ -32,7 +32,7 @@ module.exports = {
 
     await interaction.reply({
       content: `✅ Auto-kick logs will now be sent to ${channel}`,
-      flags: MessageFlags.ephemeral,
+      flags: MessageFlags.Ephemeral,
     });
   },
 };

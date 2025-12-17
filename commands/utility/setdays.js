@@ -9,11 +9,11 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName("setdays")
     .setDescription("sets the minimum allowed account age in days")
-    .addChannelOption((option) =>
+    .addIntegerOption((option) =>
       option
         .setName(`days`)
         .setDescription("Minimum age in days (e.g. 14)")
-        .setRequired(true)
+        .setRequired(true),
     )
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
@@ -23,7 +23,7 @@ module.exports = {
     if (days < 1 || days > 365) {
       return interaction.reply({
         content: "❌ Please enter a number between 1 and 365 days.",
-        flags: MessageFlags.ephemeral,
+        flags: MessageFlags.Ephemeral,
       });
     }
 
@@ -32,7 +32,7 @@ module.exports = {
 
     await interaction.reply({
       content: `✅ Minimum account age set to: **${days} days**`,
-      flags: MessageFlags.ephemeral,
+      flags: MessageFlags.Ephemeral,
     });
   },
 };

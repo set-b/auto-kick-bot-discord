@@ -1,4 +1,8 @@
-const { SlashCommandBuilder, PermissionFlagsBits } = require("discord.js");
+const {
+  SlashCommandBuilder,
+  PermissionFlagsBits,
+  MessageFlags,
+} = require("discord.js");
 
 // exports the command to be used in other parts of the app
 module.exports = {
@@ -12,19 +16,19 @@ module.exports = {
         .setRequired(true)
         .addChoices(
           { name: "Kick", value: "kick" },
-          { name: "Ban", value: "ban" }
-        )
+          { name: "Ban", value: "ban" },
+        ),
     )
     .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 
   async execute(interaction) {
     const mode = interaction.options.getString("mode");
 
-    interaction.client.guildDaysSettings.set(interaction.guild.id, mode);
+    interaction.client.guildModeSettings.set(interaction.guild.id, mode);
 
     await interaction.reply({
       content: `✅ Mode set to: **${mode}**`,
-      ephemeral: true,
+      flags: MessageFlags.ephemeral,
     });
   },
 };
